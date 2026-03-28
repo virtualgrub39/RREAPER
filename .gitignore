@@ -1,0 +1,4 @@
+.cache
+*.hex
+compile_commands.json
+config.h
