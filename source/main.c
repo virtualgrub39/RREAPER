@@ -140,6 +140,54 @@ parse_command(void)
         print ("\r\nOK\r\n");
         break;
     }
+    case 'V': {
+        uint8_t c;
+        do c = uart_rx(); while (!IS_STARTCODE(c));
+
+        uint8_t bcount = read_ihex_byte();
+        uint16_t addr = read_ihex_word();
+        uint8_t rtype = read_ihex_byte();
+        read_ihex_data(bcount);
+        uint8_t checksum = read_ihex_byte();
+
+        if (rtype != 0x00) // DATA
+        {
+            error("RTYPE");
+            break;
+        }
+
+        if (bcount > DATA_BLOCK_SZ)
+        {
+            error("BCOUNT");
+            break;
+        }
+
+        if (verify_checksum(rtype, addr, bcount, checksum) != 0) {
+            error ("CHECKSUM");
+            break;
+        }
+
+        uint8_t remote[DATA_BLOCK_SZ];
+        for (uint8_t i = 0; i < bcount; ++i)
+            remote[i] = data_block[i];
+
+        eeprom_read(addr, bcount);
+
+        for (uint8_t i = 0; i < bcount; ++i)
+        {
+            if (remote[i] != data_block[i]) 
+            {
+                print("E VERIFY:");
+                write_ihex_byte(i);
+                uart_tx('\r');
+                uart_tx('\n');
+                goto cmd_done;
+            }
+        }
+
+        print("OK\r\n");
+        break;
+    }
     case 'I':
         print("\r\nRREAPER v1.0 (" STR(BAUD) " 8N1) - GPLv3+, no warranty\r\n");
         break;
@@ -148,6 +196,9 @@ parse_command(void)
         break;
     default: error ("COMMAND");
     }
+
+cmd_done:
+    ;
 }
 
 int
