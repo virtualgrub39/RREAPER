@@ -1,16 +1,23 @@
 #include <stdint.h>
 
 #include <avr/io.h>
-#include <util/delay.h>
 #include <avr/wdt.h>
 
 #include <config.h>
 #include <uart.h>
 #include <checksum.h>
 #include <ihex.h>
+#include <eeprom.h>
 
 #define UNUSED(X) (void)(X)
 #define MIN(a, b) (a > b) ? (b) : (a)
+#define STR2(x) #x
+#define STR(x) STR2(x)
+
+/* Shared data space
+ * Read from / written to by command parser and EEPROM handler
+ */
+uint8_t data_block[DATA_BLOCK_SZ];
 
 static inline void
 system_init (void)
@@ -26,34 +33,18 @@ system_init (void)
     // enable UART
     uart_init ();
 
+    // initialize eeprom
+    eeprom_init ();
+
     // enable global interrupts
     sei ();
 }
 
-static void system_reset(void) {
+static void 
+system_reset(void) {
     print("\r\nRESET\r\n");
     wdt_enable(WDTO_15MS);
     for(;;);
-}
-
-uint8_t data_block[DATA_BLOCK_SZ];
-
-void eeprom_read(uint16_t addr, uint8_t count)
-{
-    UNUSED(addr);
-
-    for (uint8_t i = 0; i < count; ++i)
-        data_block[i] = 0xAF;
-
-    // TODO: actual readout
-}
-
-void eeprom_write(uint16_t addr, uint8_t count)
-{
-    UNUSED(addr);
-    UNUSED(count);
-
-    // TODO: actual writing
 }
 
 void
@@ -132,7 +123,7 @@ parse_command(void)
         break;
     }
     case 'I':
-        print("\r\nRIFFER - parallel EEPROM reader v0.0, 19200 8N1\r\n");
+        print("\r\nRIFFER - parallel EEPROM reader v0.0, " STR(BAUD) " 8N1\r\n");
         break;
     case 0x03: // ETX / Ctrl+C
         system_reset ();

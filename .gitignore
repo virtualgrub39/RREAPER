@@ -2,3 +2,5 @@
 *.hex
 compile_commands.json
 config.h
+*.elf
+*.su

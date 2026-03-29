@@ -3,10 +3,11 @@ F_CPU = 8000000
 PROGRAMMER = snap_isp
 
 OBJCOPY = avr-objcopy
-RM = rm -f
+SIZE = avr-size
 CC = avr-gcc
+RM = rm -f
 
-FIRMWARE_SRC = main.c uart.c checksum.c ihex.c
+FIRMWARE_SRC = main.c uart.c checksum.c ihex.c eeprom.c
 
 MCU_CFLAGS = -mmcu=$(MCU) -DF_CPU=$(F_CPU)
 MCU_CFLAGS += -Wall -Wextra -Werror
@@ -15,6 +16,9 @@ MCU_CFLAGS += -Os
 MCU_CFLAGS += -ffunction-sections -fdata-sections
 MCU_CFLAGS += -Wl,--gc-sections -flto
 MCU_CFLAGS += -I.
+
+MCU_CFLAGS += -fstack-usage
+MCU_CFLAGS += -Wstack-usage=128
 
 all: firmware.hex upload
 
@@ -29,6 +33,9 @@ config.h: config.def.h
 
 upload: firmware.hex
 	avrdude -v -c $(PROGRAMMER) -p $(MCU) -U flash:w:$<
+
+size: firmware.elf
+	$(SIZE) --format=avr --mcu=$(MCU) $<
 
 clean:
 	$(RM) *.elf *.hex
