@@ -15,7 +15,10 @@ SIZE = avr-size
 CC = avr-gcc
 RM = rm -f
 
-FIRMWARE_SRC = main.c uart.c checksum.c ihex.c eeprom.c parallel-port.c spi.c
+FIRMWARE_SRC += source/main.c 
+FIRMWARE_SRC += source/uart.c source/spi.c
+FIRMWARE_SRC += source/checksum.c source/ihex.c 
+FIRMWARE_SRC += source/eeprom.c source/parallel-port.c 
 
 MCU_CFLAGS = -mmcu=$(MCU) -DF_CPU=$(F_CPU)
 MCU_CFLAGS += -Wall -Wextra -Werror
@@ -23,7 +26,7 @@ MCU_CFLAGS += -std=c99
 MCU_CFLAGS += -Os
 MCU_CFLAGS += -ffunction-sections -fdata-sections
 MCU_CFLAGS += -Wl,--gc-sections -flto
-MCU_CFLAGS += -I.
+MCU_CFLAGS += -I. -Iinclude
 
 MCU_CFLAGS += -fstack-usage
 MCU_CFLAGS += -Wstack-usage=128
@@ -43,7 +46,7 @@ upload: firmware.hex
 	avrdude -v -c $(PROGRAMMER) -p $(MCU) -U flash:w:$<
 
 size: firmware.elf
-	$(SIZE) --format=avr --mcu=$(MCU) $<
+	$(SIZE) --format=avr --mcu=$(MCU) $
 
 clean:
 	$(RM) *.elf *.hex
