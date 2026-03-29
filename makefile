@@ -1,3 +1,11 @@
+# Copyright (C) 2026 Mikołaj Trafisz
+# 
+# This file is part of RREAPER.
+# RREAPER is free software: you may redistribute it and/or modify it
+# under the terms of the GNU General Public License, version 3, or any later version.
+# 
+# RREAPER comes with no warranty; see the GNU GPL for details.
+
 MCU = atmega328p
 F_CPU = 8000000
 PROGRAMMER = snap_isp

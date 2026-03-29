@@ -1,4 +1,12 @@
-#include "spi.h"
+/* Copyright (C) 2026 Mikołaj Trafisz
+ *
+ * This file is part of RREAPER.
+ * RREAPER is free software: you may redistribute it and/or modify it
+ * under the terms of the GNU General Public License, version 3, or any later version.
+ *
+ * RREAPER comes with no warranty; see the GNU GPL for details.
+ */
+
 #include <stdint.h>
 
 #include <avr/io.h>
@@ -9,6 +17,7 @@
 #include <checksum.h>
 #include <ihex.h>
 #include <eeprom.h>
+#include <spi.h>
 
 #define UNUSED(X) (void)(X)
 #define MIN(a, b) (a > b) ? (b) : (a)
@@ -132,7 +141,7 @@ parse_command(void)
         break;
     }
     case 'I':
-        print("\r\nRIFFER - parallel EEPROM reader v1.0, " STR(BAUD) " 8N1\r\n");
+        print("\r\nRREAPER v1.0 (" STR(BAUD) " 8N1) - GPLv3+, no warranty\r\n");
         break;
     case 0x03: // ETX / Ctrl+C
         system_reset ();
