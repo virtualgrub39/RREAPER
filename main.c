@@ -1,3 +1,4 @@
+#include "spi.h"
 #include <stdint.h>
 
 #include <avr/io.h>
@@ -32,6 +33,10 @@ system_init (void)
 
     // enable UART
     uart_init ();
+
+    // enable SPI
+    spi_init ();
+    spi_latch_high ();
 
     // initialize eeprom
     eeprom_init ();
@@ -71,15 +76,15 @@ parse_command(void)
 
             uart_tx(STARTCODE);
             write_ihex_byte(count);
-            uart_tx(' ');
+            // uart_tx(' ');
             write_ihex_word(caddr);
-            uart_tx(' ');
+            // uart_tx(' ');
             write_ihex_byte(0x00);
-            uart_tx(' ');
+            // uart_tx(' ');
 
             write_ihex_data(count);
 
-            uart_tx(' ');
+            // uart_tx(' ');
             write_ihex_byte(cs);
 
             uart_tx('\r');
@@ -117,13 +122,17 @@ parse_command(void)
             break;
         }
 
-        eeprom_write(addr, bcount);
+        if (eeprom_write(addr, bcount) != 0)
+        {
+            error("WRITE");
+            break;
+        }
 
         print ("\r\nOK\r\n");
         break;
     }
     case 'I':
-        print("\r\nRIFFER - parallel EEPROM reader v0.0, " STR(BAUD) " 8N1\r\n");
+        print("\r\nRIFFER - parallel EEPROM reader v1.0, " STR(BAUD) " 8N1\r\n");
         break;
     case 0x03: // ETX / Ctrl+C
         system_reset ();
