@@ -49,4 +49,4 @@ size: firmware.elf
 	$(SIZE) --format=avr --mcu=$(MCU) $
 
 clean:
-	$(RM) *.elf *.hex
+	$(RM) *.elf *.hex *.su
