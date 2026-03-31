@@ -1,12 +1,33 @@
 #include "mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
-    ui.setupUi(this);  // instantiates and places all widgets from the .ui file
+#include <QSerialPortInfo>
+#include <QtWidgets>
 
-    // widgets are now accessible as ui.whatever — named by you in Designer
-    connect(ui.connectButton, &QPushButton::clicked, this, &MainWindow::onConnectClicked);
+MainWindow::MainWindow (QWidget *parent) : QMainWindow (parent)
+{
+    ui.setupUi (this);
+
+    for (auto &info : QSerialPortInfo::availablePorts ()) ui.portSelector->addItem (info.portName ());
+
+    connect (ui.connectButton, &QPushButton::clicked, this, &MainWindow::onConnectButtonClick);
+    connect (ui.readButton, &QPushButton::clicked, this, &MainWindow::onReadButtonClick);
+    connect (ui.writeButton, &QPushButton::clicked, this, &MainWindow::onWriteButtonClick);
 }
 
-void MainWindow::onConnectClicked() {
-    ui.logView->append("clicked");
+void
+MainWindow::onConnectButtonClick ()
+{
+    ui.statusBar->showMessage ("CONNECT CLICKED!", 2000);
+}
+
+void
+MainWindow::onReadButtonClick ()
+{
+    ui.statusBar->showMessage ("READ CLICKED!", 2000);
+}
+
+void
+MainWindow::onWriteButtonClick ()
+{
+    ui.statusBar->showMessage ("WRITE CLICKED!", 2000);
 }

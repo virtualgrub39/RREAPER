@@ -1,17 +1,20 @@
 #pragma once
 
-#include <QMainWindow>
 #include "ui_mainwindow.h"
+#include <QMainWindow>
 
-class MainWindow : public QMainWindow {
+class MainWindow : public QMainWindow
+{
     Q_OBJECT
 
-public:
-    MainWindow(QWidget *parent = nullptr);
+  public:
+    MainWindow (QWidget *parent = nullptr);
 
-private slots:
-    void onConnectClicked();
+  private slots:
+    void onConnectButtonClick ();
+    void onReadButtonClick ();
+    void onWriteButtonClick ();
 
-private:
+  private:
     Ui::MainWindow ui;
 };
