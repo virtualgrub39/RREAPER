@@ -1,10 +1,20 @@
+/* Copyright (C) 2026 Mikołaj Trafisz
+ *
+ * This file is part of RREAPER.
+ * RREAPER is free software: you may redistribute it and/or modify it
+ * under the terms of the GNU General Public License, version 3, or any later version.
+ *
+ * RREAPER comes with no warranty; see the GNU GPL for details.
+ */
+
 #pragma once
 
 #include "ui_mainwindow.h"
 
-#include <span>
-#include <cstdint>
 #include <concepts>
+#include <cstdint>
+#include <span>
+
 
 #include <QMainWindow>
 #include <QSerialPort>
@@ -24,7 +34,8 @@ class MainWindow : public QMainWindow
     void onWriteButtonClick ();
 
   private:
-    enum class Stage {
+    enum class Stage
+    {
         Disconnected,
         Connected,
         Reading,
@@ -33,14 +44,14 @@ class MainWindow : public QMainWindow
 
     Ui::MainWindow ui;
     QSerialPort port;
-    QByteArray  rxBuf;
+    QByteArray rxBuf;
 
-    void portConnect();
-    void portDisconnect();
-    void configurePort(qint32 baud);
-    void onReadyRead();
-    void sendReset();
-    void processIncoming();
+    void portConnect ();
+    void portDisconnect ();
+    void configurePort (qint32 baud);
+    void onReadyRead ();
+    void sendReset ();
+    void processIncoming ();
 
     // template <std::unsigned_integral T>
     // void ihexRead(T& out);
