@@ -80,7 +80,20 @@
   },
   "open_jobsets": [],
   "project": {
-    "files": []
+    "files": [
+      {
+        "name": "rreaper.kicad_sch",
+        "open": true,
+        "window": {
+          "display": 0,
+          "maximized": false,
+          "pos_x": 2553,
+          "pos_y": 0,
+          "size_x": 2574,
+          "size_y": 1399
+        }
+      }
+    ]
   },
   "schematic": {
     "selection_filter": {
