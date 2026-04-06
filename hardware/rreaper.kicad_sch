@@ -4,6 +4,11 @@
 	(generator_version "9.0")
 	(uuid "061140d5-a8b8-4992-87a0-22d4d4897d8f")
 	(paper "A4")
+	(title_block
+		(title "Atmega328P 28C64/28C256 USB EEPROM programmer")
+		(rev "1")
+		(company "virtualgrub39")
+	)
 	(lib_symbols
 		(symbol "74xx:74HC595"
 			(exclude_from_sim no)
@@ -7645,9 +7650,9 @@
 		(at 99.06 114.3 90)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "17c64978-de58-4876-8c5e-9bde4cbb5f23")
 		(property "Reference" "CX1"
 			(at 99.06 109.728 90)
@@ -7665,7 +7670,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P2.50mm"
 			(at 99.06 114.3 0)
 			(effects
 				(font
@@ -7994,7 +7999,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P2.50mm"
 			(at 58.42 87.63 0)
 			(effects
 				(font
@@ -8193,7 +8198,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P2.50mm"
 			(at 165.1 39.37 0)
 			(effects
 				(font
@@ -8240,9 +8245,9 @@
 		(at 92.71 118.11 270)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "3788670c-bf71-4f40-86ef-e4ca3dae72f8")
 		(property "Reference" "X1"
 			(at 87.376 116.586 90)
@@ -8262,7 +8267,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Crystal:Crystal_HC18-U_Vertical"
 			(at 92.71 118.11 0)
 			(effects
 				(font
@@ -8717,7 +8722,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Socket:DIP_Socket-28_W11.9_W12.7_W15.24_W17.78_W18.5_3M_228-1277-00-0602J"
 			(at 229.87 81.28 0)
 			(effects
 				(font
@@ -8967,7 +8972,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P2.50mm"
 			(at 60.96 27.94 0)
 			(effects
 				(font
@@ -9034,7 +9039,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P2.50mm"
 			(at 58.42 83.82 0)
 			(effects
 				(font
@@ -9151,7 +9156,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "5dc64f2b-5594-4196-8220-f552d1ae003a")
-		(property "Reference" "R2"
+		(property "Reference" "R41"
 			(at 138.43 113.792 90)
 			(effects
 				(font
@@ -9167,7 +9172,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "PCM_Resistor_THT_AKL:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
 			(at 140.97 111.76 0)
 			(effects
 				(font
@@ -9203,7 +9208,7 @@
 		(instances
 			(project "rreaper"
 				(path "/061140d5-a8b8-4992-87a0-22d4d4897d8f"
-					(reference "R2")
+					(reference "R41")
 					(unit 1)
 				)
 			)
@@ -9621,7 +9626,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder"
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P2.50mm"
 			(at 250.4948 69.85 0)
 			(effects
 				(font
@@ -9754,7 +9759,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "PCM_Resistor_THT_AKL:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
 			(at 85.09 142.24 0)
 			(effects
 				(font
@@ -9932,9 +9937,9 @@
 		(at 99.06 121.92 90)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "839d17e4-7943-4a41-9a8c-2ecf82c0ada9")
 		(property "Reference" "CX2"
 			(at 99.06 124.46 90)
@@ -9952,7 +9957,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P2.50mm"
 			(at 99.06 121.92 0)
 			(effects
 				(font
@@ -10549,7 +10554,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "c4ce62f1-d810-4781-a248-185431fcd369")
-		(property "Reference" "R1"
+		(property "Reference" "R31"
 			(at 138.43 57.912 90)
 			(effects
 				(font
@@ -10565,7 +10570,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "PCM_Resistor_THT_AKL:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
 			(at 140.97 55.88 0)
 			(effects
 				(font
@@ -10601,7 +10606,7 @@
 		(instances
 			(project "rreaper"
 				(path "/061140d5-a8b8-4992-87a0-22d4d4897d8f"
-					(reference "R1")
+					(reference "R31")
 					(unit 1)
 				)
 			)
@@ -10697,7 +10702,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P2.50mm"
 			(at 60.96 24.13 0)
 			(effects
 				(font
@@ -10900,7 +10905,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P2.50mm"
 			(at 165.1 95.25 0)
 			(effects
 				(font
