@@ -3336,6 +3336,89 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Mechanical:MountingHole"
+			(pin_names
+				(offset 1.016)
+			)
+			(exclude_from_sim yes)
+			(in_bom no)
+			(on_board yes)
+			(property "Reference" "H"
+				(at 0 5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "MountingHole"
+				(at 0 3.175 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Mounting Hole without connection"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "mounting hole"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "MountingHole*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "MountingHole_0_1"
+				(circle
+					(center 0 0)
+					(radius 1.27)
+					(stroke
+						(width 1.27)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "PCM_Crystal_AKL:Crystal_Generic"
 			(pin_numbers
 				(hide yes)
@@ -4597,6 +4680,16 @@
 			(type default)
 		)
 		(uuid "068b8ee7-b875-433d-a1fa-1b4488b41ccd")
+	)
+	(wire
+		(pts
+			(xy 137.16 144.78) (xy 137.16 147.32)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0780950b-75b8-4544-acd0-a4d5ed4a0c9b")
 	)
 	(wire
 		(pts
@@ -6268,6 +6361,16 @@
 		)
 		(uuid "ee4696fa-c981-4e24-8742-f2fae6525f7c")
 	)
+	(wire
+		(pts
+			(xy 137.16 137.16) (xy 137.16 139.7)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ee851efd-7385-475f-bdde-85a96fcb4d0d")
+	)
 	(bus
 		(pts
 			(xy 176.53 119.38) (xy 176.53 121.92)
@@ -6477,6 +6580,18 @@
 			(justify left bottom)
 		)
 		(uuid "1b363cf6-c9de-47d3-85d6-bc756ca4dfe8")
+	)
+	(label "USB-"
+		(at 35.56 48.26 0)
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.2)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+		(uuid "1f789659-98c5-4528-bd7a-836c1aa2f7c1")
 	)
 	(label "D3"
 		(at 238.76 99.06 0)
@@ -6707,6 +6822,18 @@
 			(justify left bottom)
 		)
 		(uuid "b1a785de-9384-46b3-9248-51fb2b27ec23")
+	)
+	(label "USB+"
+		(at 35.56 45.72 0)
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.2)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+		(uuid "ba76a4aa-e09a-4ea6-ab2a-a734a324337a")
 	)
 	(label "A14"
 		(at 171.45 119.38 0)
@@ -7650,9 +7777,9 @@
 		(at 99.06 114.3 90)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom no)
+		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(uuid "17c64978-de58-4876-8c5e-9bde4cbb5f23")
 		(property "Reference" "CX1"
 			(at 99.06 109.728 90)
@@ -8175,6 +8302,138 @@
 	)
 	(symbol
 		(lib_id "Device:C_Small")
+		(at 137.16 142.24 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "3101579b-5e9e-4816-8b03-8ec9be10aed1")
+		(property "Reference" "CP1"
+			(at 133.858 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "1u"
+			(at 140.462 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P2.50mm"
+			(at 137.16 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 137.16 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Unpolarized capacitor, small symbol"
+			(at 137.16 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c08fb1c1-9b6c-4c1f-821e-bd01c81132fd")
+		)
+		(pin "2"
+			(uuid "e385b509-e3ea-4eaa-b066-08ca2424ca3e")
+		)
+		(instances
+			(project "rreaper"
+				(path "/061140d5-a8b8-4992-87a0-22d4d4897d8f"
+					(reference "CP1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+5V")
+		(at 137.16 137.16 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "36822591-d066-403f-88bd-a32af6b2c203")
+		(property "Reference" "#PWR029"
+			(at 137.16 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+5V"
+			(at 137.16 133.096 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 137.16 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 137.16 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+5V\""
+			(at 137.16 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "7269f80c-80ed-4845-bcb1-2803ae78ca31")
+		)
+		(instances
+			(project "rreaper"
+				(path "/061140d5-a8b8-4992-87a0-22d4d4897d8f"
+					(reference "#PWR029")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C_Small")
 		(at 165.1 39.37 90)
 		(unit 1)
 		(exclude_from_sim no)
@@ -8245,9 +8504,9 @@
 		(at 92.71 118.11 270)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom no)
+		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(uuid "3788670c-bf71-4f40-86ef-e4ca3dae72f8")
 		(property "Reference" "X1"
 			(at 87.376 116.586 90)
@@ -8942,6 +9201,70 @@
 			(project ""
 				(path "/061140d5-a8b8-4992-87a0-22d4d4897d8f"
 					(reference "U2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 149.86 186.69 0)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "4c50ff85-79df-48f8-8cac-ffd61101b554")
+		(property "Reference" "H4"
+			(at 152.4 185.4199 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole"
+			(at 152.4 187.9599 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_2.7mm_M2.5"
+			(at 149.86 186.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 149.86 186.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 149.86 186.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project "rreaper"
+				(path "/061140d5-a8b8-4992-87a0-22d4d4897d8f"
+					(reference "H4")
 					(unit 1)
 				)
 			)
@@ -9937,9 +10260,9 @@
 		(at 99.06 121.92 90)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom no)
+		(in_bom yes)
 		(on_board yes)
-		(dnp yes)
+		(dnp no)
 		(uuid "839d17e4-7943-4a41-9a8c-2ecf82c0ada9")
 		(property "Reference" "CX2"
 			(at 99.06 124.46 90)
@@ -10146,7 +10469,7 @@
 				)
 			)
 		)
-		(property "Value" "ICP"
+		(property "Value" "ICSP"
 			(at 102.87 36.322 0)
 			(effects
 				(font
@@ -10221,6 +10544,70 @@
 		)
 	)
 	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 129.54 177.8 0)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "9e7c2d80-7c2f-4e68-bf2f-a922e72f7003")
+		(property "Reference" "H1"
+			(at 132.08 176.5299 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole"
+			(at 132.08 179.0699 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_2.7mm_M2.5"
+			(at 129.54 177.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 129.54 177.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 129.54 177.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project ""
+				(path "/061140d5-a8b8-4992-87a0-22d4d4897d8f"
+					(reference "H1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:+5V")
 		(at 137.16 110.49 0)
 		(unit 1)
@@ -10280,6 +10667,136 @@
 			(project "rreaper"
 				(path "/061140d5-a8b8-4992-87a0-22d4d4897d8f"
 					(reference "#PWR023")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:Earth")
+		(at 137.16 147.32 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "a4c4b37b-7d28-4e6c-8b3a-e39a105daaa9")
+		(property "Reference" "#PWR028"
+			(at 137.16 153.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 137.16 152.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 137.16 147.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 137.16 147.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"Earth\""
+			(at 137.16 147.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "76183d0f-1a38-4088-8c57-3f488d7416bf")
+		)
+		(instances
+			(project "rreaper"
+				(path "/061140d5-a8b8-4992-87a0-22d4d4897d8f"
+					(reference "#PWR028")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 129.54 186.69 0)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "a7cf3466-5a0d-4a2c-a9e6-0e8c6aec9f5d")
+		(property "Reference" "H3"
+			(at 132.08 185.4199 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole"
+			(at 132.08 187.9599 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_2.7mm_M2.5"
+			(at 129.54 186.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 129.54 186.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 129.54 186.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project "rreaper"
+				(path "/061140d5-a8b8-4992-87a0-22d4d4897d8f"
+					(reference "H3")
 					(unit 1)
 				)
 			)
@@ -11007,6 +11524,70 @@
 			(project "rreaper"
 				(path "/061140d5-a8b8-4992-87a0-22d4d4897d8f"
 					(reference "#PWR020")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 149.86 177.8 0)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d3c13da8-ead9-4d65-b366-59c25ebb1cb0")
+		(property "Reference" "H2"
+			(at 152.4 176.5299 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole"
+			(at 152.4 179.0699 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_2.7mm_M2.5"
+			(at 149.86 177.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 149.86 177.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 149.86 177.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project "rreaper"
+				(path "/061140d5-a8b8-4992-87a0-22d4d4897d8f"
+					(reference "H2")
 					(unit 1)
 				)
 			)
