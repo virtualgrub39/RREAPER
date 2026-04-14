@@ -50,7 +50,7 @@
       "conflict_shadows",
       "shapes"
     ],
-    "visible_layers": "ffffffff_ffffffff_ffffff77_ffffffff",
+    "visible_layers": "ffffffff_ffffffff_ffffff77_ffffffaf",
     "zone_display_mode": 0
   },
   "git": {
@@ -73,6 +73,8 @@
       false,
       false,
       false,
+      false,
+      false,
       false
     ],
     "col_order": [
@@ -85,7 +87,9 @@
       6,
       7,
       8,
-      9
+      9,
+      10,
+      11
     ],
     "col_widths": [
       162,
@@ -96,6 +100,8 @@
       91,
       91,
       71,
+      91,
+      91,
       91,
       91
     ],
@@ -115,7 +121,7 @@
   "project": {
     "files": [
       {
-        "name": "rreaper.kicad_sch",
+        "name": "rreaper.kicad_pcb",
         "open": false,
         "window": {
           "display": 0,
@@ -127,12 +133,12 @@
         }
       },
       {
-        "name": "rreaper.kicad_pcb",
-        "open": false,
+        "name": "rreaper.kicad_sch",
+        "open": true,
         "window": {
           "display": 0,
           "maximized": false,
-          "pos_x": -7,
+          "pos_x": 2553,
           "pos_y": 0,
           "size_x": 2574,
           "size_y": 1399
