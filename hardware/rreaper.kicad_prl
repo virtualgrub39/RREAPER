@@ -125,7 +125,19 @@
     "files": [
       {
         "name": "rreaper.kicad_pcb",
-        "open": false,
+        "open": true,
+        "window": {
+          "display": 0,
+          "maximized": false,
+          "pos_x": -7,
+          "pos_y": 0,
+          "size_x": 2574,
+          "size_y": 1399
+        }
+      },
+      {
+        "name": "rreaper.kicad_sch",
+        "open": true,
         "window": {
           "display": 0,
           "maximized": false,
