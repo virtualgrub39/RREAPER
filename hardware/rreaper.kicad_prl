@@ -51,7 +51,7 @@
       "conflict_shadows",
       "shapes"
     ],
-    "visible_layers": "ffffffff_ffffffff_ffffff77_ffffffaf",
+    "visible_layers": "ffffffff_ffffffff_ffffff77_ffffffff",
     "zone_display_mode": 0
   },
   "git": {
@@ -125,7 +125,7 @@
     "files": [
       {
         "name": "rreaper.kicad_pcb",
-        "open": true,
+        "open": false,
         "window": {
           "display": 0,
           "maximized": false,
