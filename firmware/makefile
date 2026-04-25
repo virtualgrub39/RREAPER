@@ -8,7 +8,7 @@
 
 MCU = atmega328p
 F_CPU = 8000000
-PROGRAMMER = snap_isp
+PROGRAMMER = usbasp
 
 OBJCOPY = avr-objcopy
 SIZE = avr-size
@@ -16,8 +16,8 @@ CC = avr-gcc
 RM = rm -f
 
 FIRMWARE_SRC += source/main.c 
-FIRMWARE_SRC += source/uart.c source/spi.c
-FIRMWARE_SRC += source/checksum.c source/ihex.c 
+FIRMWARE_SRC += source/serial.c source/spi.c
+FIRMWARE_SRC += source/checksum.c source/ihex.c source/crc.c
 FIRMWARE_SRC += source/eeprom.c source/parallel-port.c 
 
 MCU_CFLAGS = -mmcu=$(MCU) -DF_CPU=$(F_CPU)
@@ -27,9 +27,12 @@ MCU_CFLAGS += -Os
 MCU_CFLAGS += -ffunction-sections -fdata-sections
 MCU_CFLAGS += -Wl,--gc-sections -flto
 MCU_CFLAGS += -I. -Iinclude
+MCU_CFLAGS += -Wno-unused-variable
 
 MCU_CFLAGS += -fstack-usage
 MCU_CFLAGS += -Wstack-usage=128
+
+AVRDUDE_FLAGS += -B 10
 
 all: firmware.hex upload config.h
 
@@ -43,7 +46,7 @@ config.h: config.def.h
 	$(CC) $(MCU_CFLAGS) -o $@ $(FIRMWARE_SRC) $(MCU_LDFLAGS)
 
 upload: firmware.hex
-	avrdude -v -c $(PROGRAMMER) -p $(MCU) -U flash:w:$<
+	avrdude -v -c $(PROGRAMMER) -p $(MCU) $(AVRDUDE_FLAGS) -U flash:w:$<
 
 size: firmware.elf
 	$(SIZE) --format=avr --mcu=$(MCU) $

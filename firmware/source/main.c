@@ -13,21 +13,31 @@
 #include <avr/wdt.h>
 
 #include <config.h>
-#include <uart.h>
+#include <serial.h>
 #include <checksum.h>
 #include <ihex.h>
 #include <eeprom.h>
 #include <spi.h>
+#include <error.h>
+#include <crc.h>
 
-#define UNUSED(X) (void)(X)
-#define MIN(a, b) (a > b) ? (b) : (a)
+#define MIN(a, b) (((a) > (b)) ? (b) : (a))
 #define STR2(x) #x
 #define STR(x) STR2(x)
+
+#define COMMAND_READ 'R'
+#define COMMAND_WRITE 'W'
+#define COMMAND_INFO 'I'
+#define COMMAND_RESET 0x03
+#define COMMAND_VERIFY 'V'
+#define COMMAND_CRC 'C'
+#define COMMAND_DEVICE 'D'
 
 /* Shared data space
  * Read from / written to by command parser and EEPROM handler
  */
 uint8_t data_block[DATA_BLOCK_SZ];
+ihex_record_t record;
 
 static inline void
 system_init (void)
@@ -40,176 +50,157 @@ system_init (void)
     CLKPR = (1 << CLKPCE);
     CLKPR = 0;
 
-    // enable UART
-    uart_init ();
-
-    // enable SPI
+    serial_init ();
     spi_init ();
-    spi_latch_high ();
 
-    // initialize eeprom
-    eeprom_init ();
+    d_eeprom_select(EEPROM_ID_INTERNAL);
+    d_eeprom_init ();
 
-    // enable global interrupts
     sei ();
 }
 
 static void 
 system_reset(void) {
-    print("\r\nRESET\r\n");
+    println("RESETTING...");
     wdt_enable(WDTO_15MS);
     for(;;);
 }
 
-void
-parse_command(void)
+uint8_t
+do_read()
 {
-    uint8_t cmd;
-    do cmd = uart_rx(); while (IS_WHITESPACE(cmd));
+    uint16_t addr = read_ihex_word();
+    uint16_t bcount = read_ihex_word();
+    
+    uint16_t read = 0;
 
-    switch (cmd)
+    while (read < bcount)
     {
-    case 'R': {
-        uint16_t addr = read_ihex_word();
-        uint16_t bcount = read_ihex_word();
-        
-        uint16_t read = 0;
+        const uint16_t caddr = addr + read;
 
-        while (read < bcount)
-        {
-            const uint16_t caddr = addr + read;
-            eeprom_read(caddr, DATA_BLOCK_SZ);
+        record.bcount = MIN(DATA_BLOCK_SZ, bcount - read);
 
-            const uint8_t count = MIN(DATA_BLOCK_SZ, bcount - read);
-            const uint8_t cs = compute_checksum(0x00, caddr, count);
+        d_eeprom_read(caddr, record.bcount);
 
-            uart_tx(STARTCODE);
-            write_ihex_byte(count);
-            // uart_tx(' ');
-            write_ihex_word(caddr);
-            // uart_tx(' ');
-            write_ihex_byte(0x00);
-            // uart_tx(' ');
+        record.addr = caddr;
+        record.rtype = 0x00; // DATA; TODO: macro-definition
+        checksum_ihex_record(&record);
 
-            write_ihex_data(count);
+        write_ihex_record(&record);
 
-            // uart_tx(' ');
-            write_ihex_byte(cs);
-
-            uart_tx('\r');
-            uart_tx('\n');
-
-            read += DATA_BLOCK_SZ;
-        }
-
-        break;
-    }
-    case 'W': {
-        uint8_t c;
-        do c = uart_rx(); while (!IS_STARTCODE(c));
-
-        uint8_t bcount = read_ihex_byte();
-        uint16_t addr = read_ihex_word();
-        uint8_t rtype = read_ihex_byte();
-        read_ihex_data(bcount);
-        uint8_t checksum = read_ihex_byte();
-
-        if (rtype != 0x00) // DATA
-        {
-            error("RTYPE");
-            break;
-        }
-
-        if (bcount > DATA_BLOCK_SZ)
-        {
-            error("BCOUNT");
-            break;
-        }
-
-        if (verify_checksum(rtype, addr, bcount, checksum) != 0) {
-            error ("CHECKSUM");
-            break;
-        }
-
-        if (eeprom_write(addr, bcount) != 0)
-        {
-            error("WRITE");
-            break;
-        }
-
-        print ("\r\nOK\r\n");
-        break;
-    }
-    case 'V': {
-        uint8_t c;
-        do c = uart_rx(); while (!IS_STARTCODE(c));
-
-        uint8_t bcount = read_ihex_byte();
-        uint16_t addr = read_ihex_word();
-        uint8_t rtype = read_ihex_byte();
-        read_ihex_data(bcount);
-        uint8_t checksum = read_ihex_byte();
-
-        if (rtype != 0x00) // DATA
-        {
-            error("RTYPE");
-            break;
-        }
-
-        if (bcount > DATA_BLOCK_SZ)
-        {
-            error("BCOUNT");
-            break;
-        }
-
-        if (verify_checksum(rtype, addr, bcount, checksum) != 0) {
-            error ("CHECKSUM");
-            break;
-        }
-
-        uint8_t remote[DATA_BLOCK_SZ];
-        for (uint8_t i = 0; i < bcount; ++i)
-            remote[i] = data_block[i];
-
-        eeprom_read(addr, bcount);
-
-        for (uint8_t i = 0; i < bcount; ++i)
-        {
-            if (remote[i] != data_block[i]) 
-            {
-                print("E VERIFY:");
-                write_ihex_byte(i);
-                uart_tx('\r');
-                uart_tx('\n');
-                goto cmd_done;
-            }
-        }
-
-        print("OK\r\n");
-        break;
-    }
-    case 'I':
-        print("\r\nRREAPER v1.0 (" STR(BAUD) " 8N1) - GPLv3+, no warranty\r\n");
-        break;
-    case 0x03: // ETX / Ctrl+C
-        system_reset ();
-        break;
-    default: error ("COMMAND");
+        read += record.bcount;
     }
 
-cmd_done:
-    ;
+    return E_SILENT;
+}
+
+uint8_t
+do_write()
+{
+    read_ihex_record(&record);
+    if (record.bcount > DATA_BLOCK_SZ) return E_BYTECOUNT;
+    if (record.rtype != 0x00) return E_RECTYPE;
+    if (checksum_ihex_record(&record) != 0) return E_CHECKSUM;
+
+    if (d_eeprom_write(record.addr, record.bcount) != 0) return E_ROM_WRITE;
+
+    return E_OK;
+}
+
+static inline uint8_t
+do_info()
+{
+    println ("RREAPER v1.1 (" STR(BAUD) " 8N1) - GPLv3+, no warranty");
+    return E_SILENT;
+}
+
+uint8_t
+do_verify()
+{
+    read_ihex_record(&record);
+
+    if (record.bcount > DATA_BLOCK_SZ) return E_BYTECOUNT;
+    if (record.rtype != 0x00) return E_RECTYPE;
+    if (checksum_ihex_record(&record) != 0) return E_CHECKSUM;
+
+    uint8_t remote[DATA_BLOCK_SZ];
+    for (uint8_t i = 0; i < record.bcount; ++i)
+        remote[i] = data_block[i];
+
+    d_eeprom_read(record.addr, record.bcount);
+
+    for (uint8_t i = 0; i < record.bcount; ++i)
+        if (remote[i] != data_block[i]) return E_VERIFY;
+
+    return E_OK;
+}
+
+uint8_t
+do_crc()
+{
+    uint16_t addr = read_ihex_word();
+    uint16_t bcount = read_ihex_word();
+
+    uint16_t crc = 0x0000;
+    for (uint16_t i = 0; i < bcount; ++i) 
+        crc = crc16_part(crc, d_eeprom_read_byte(addr + i));
+
+    write_ihex_word(crc);
+    println("");
+
+    return E_SILENT;
+}
+
+uint8_t
+do_device()
+{
+    uint8_t id = read_ihex_byte ();
+    if (d_eeprom_select(id) != 0) return E_DEVICE;
+    d_eeprom_init();
+    return E_OK;
+}
+
+uint8_t
+do_command(uint8_t command)
+{
+    switch (command)
+    {
+    case COMMAND_READ: return do_read();
+    case COMMAND_WRITE: return do_write(); 
+    case COMMAND_INFO: return do_info(); 
+    case COMMAND_RESET: /* noreturn */ system_reset(); return E_SILENT;
+    case COMMAND_VERIFY: return do_verify();
+    case COMMAND_CRC: return do_crc();
+    case COMMAND_DEVICE: return do_device();
+    }
+    
+    return E_COMMAND;
+}
+
+static inline uint8_t
+read_command()
+{
+    uint8_t c;
+    do c = serial_rx(); while (IS_WHITESPACE(c));
+    return c;
+}
+
+static inline void
+write_header()
+{
+    println("READY");
 }
 
 int
 main(void)
 {
     system_init ();	
-
-    print("\r\nREADY\r\n");
+    write_header();
 
     for (;;)
     {
-    	parse_command ();
+        uint8_t command = read_command();
+        uint8_t rcode = do_command(command);
+        report(rcode);
     }
 }

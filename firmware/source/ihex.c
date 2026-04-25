@@ -8,44 +8,42 @@
  */
 
 #include <ihex.h>
-#include <uart.h>
+#include <serial.h>
 #include <checksum.h>
 
 extern uint8_t data_block[DATA_BLOCK_SZ];
 
-uint16_t read_ihex_word ()
+static uint8_t read_hex_digit(void)
 {
-    uint8_t a, b, c, d;
+    uint8_t c;
+    do {
+        c = serial_rx();
+    } while (IS_WHITESPACE(c));
 
-    do a = uart_rx(); while (IS_WHITESPACE(a));
-    b = uart_rx();
-    c = uart_rx();
-    d = uart_rx();
+    if (c >= '0' && c <= '9') return c - '0';
+    if (c >= 'a' && c <= 'f') return c - 'a' + 10;
+    if (c >= 'A' && c <= 'F') return c - 'A' + 10;
 
-    return (uint16_t) (IHEX_TO_BYTE(a, b) << 8) | (uint16_t)(IHEX_TO_BYTE(c, d));
+    return 0xFF;
 }
 
-uint8_t read_ihex_byte ()
+uint8_t read_ihex_byte(void)
 {
-    uint8_t a, b;
-    do a = uart_rx(); while (IS_WHITESPACE(a));
-    b = uart_rx();
-    return IHEX_TO_BYTE(a, b);
+    uint8_t hi = read_hex_digit();
+    uint8_t lo = read_hex_digit();
+    return (hi << 4) | lo;
 }
 
-void read_ihex_data (uint8_t count)
+uint16_t read_ihex_word(void)
 {
-    for (uint8_t i = 0; i < count; i++) {
-        uint8_t b = read_ihex_byte();
-        if (i < DATA_BLOCK_SZ) data_block[i] = b;
-    }
+    return ((uint16_t)read_ihex_byte() << 8) | read_ihex_byte();
 }
 
 void
 write_ihex_byte(uint8_t b)
 {
-    uart_tx(NIBBLE_TO_IHEX(b >> 4));
-    uart_tx(NIBBLE_TO_IHEX(b & 0x0F));
+    serial_tx(NIBBLE_TO_IHEX(b >> 4));
+    serial_tx(NIBBLE_TO_IHEX(b & 0x0F));
 }
 
 void
@@ -55,32 +53,54 @@ write_ihex_word(uint16_t w)
     write_ihex_byte(w & 0xFF);
 }
 
-// void write_ihex_data (uint8_t rtype, uint16_t addr, uint8_t count)
-// {
-//     // const uint8_t rtype = 0x00;
+static void read_ihex_data (uint8_t count)
+{
+    for (uint8_t i = 0; i < count; i++) {
+        uint8_t b = read_ihex_byte();
+        if (i < DATA_BLOCK_SZ) data_block[i] = b;
+    }
+}
 
-//     uint8_t cs = compute_checksum(rtype, addr, count);
-
-//     uart_tx(STARTCODE);
-//     write_ihex_byte(count);
-//     // uart_tx(' ');
-//     write_ihex_word(addr);
-//     // uart_tx(' ');
-//     write_ihex_byte(rtype);
-//     // uart_tx(' ');
-
-//     for (uint8_t i = 0; i < count; ++i)
-//         write_ihex_byte(data_block[i]);
-
-//     // uart_tx(' ');
-//     write_ihex_byte(cs);
-
-//     uart_tx('\r');
-//     uart_tx('\n');
-// }
-
-void write_ihex_data (uint8_t count)
+static void write_ihex_data (uint8_t count)
 {
 	for (uint8_t i = 0; i < count; ++i)
         write_ihex_byte(data_block[i]);
+}
+
+uint8_t checksum_ihex_record(ihex_record_t * rec)
+{
+    const uint8_t old_cs = rec->checksum; 
+    rec->checksum = compute_checksum(rec->rtype, rec->addr, rec->bcount);
+    return rec->checksum - old_cs;
+}
+
+void read_ihex_record (ihex_record_t * rec)
+{
+    uint8_t c;
+    do c = serial_rx(); while (!IS_STARTCODE(c));
+
+    rec->bcount = read_ihex_byte();
+    rec->addr = read_ihex_word();
+    rec->rtype = read_ihex_byte();
+    read_ihex_data(rec->bcount);
+    rec->checksum = read_ihex_byte();
+}
+
+void write_ihex_record (const ihex_record_t * rec)
+{
+    serial_tx(STARTCODE);
+    write_ihex_byte(rec->bcount);
+    // serial_tx(' ');
+    write_ihex_word(rec->addr);
+    // serial_tx(' ');
+    write_ihex_byte(rec->rtype);
+    // serial_tx(' ');
+
+    write_ihex_data(rec->bcount);
+
+    // serial_tx(' ');
+    write_ihex_byte(rec->checksum);
+
+    serial_tx('\r');
+    serial_tx('\n');
 }

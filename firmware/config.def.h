@@ -1,12 +1,3 @@
-/* Copyright (C) 2026 Mikołaj Trafisz
- *
- * This file is part of RREAPER.
- * RREAPER is free software: you may redistribute it and/or modify it
- * under the terms of the GNU General Public License, version 3, or any later version.
- *
- * RREAPER comes with no warranty; see the GNU GPL for details.
- */
-
 #ifndef CONFIG_H
 #define CONFIG_H
 
@@ -37,16 +28,16 @@
 #define CTL_PINS \
 	X(CE, B, 1) \
 	X(OE, B, 0) \
-	X(WE, D, 7)
+	X(WE, D, 7) 
+    // X(SEL_PAR, B, 2)
 
 /* SPI shift-register */
 
-// pins used for SPI communication
-#define PORT_SPI PORTB
-#define DDR_SPI DDRB
-#define PIN_MOSI PB3
-#define PIN_MISO PB4
-#define PIN_SCK PB5
-#define PIN_SS PB2
+// (NAME, PORT, NUMBER)
+#define SPI_PINS \
+    X(MOSI, B, 3) \
+    X(MISO, B, 4) \
+    X(SCK, B, 5) \
+    X(SS1, B, 2)
 
 #endif

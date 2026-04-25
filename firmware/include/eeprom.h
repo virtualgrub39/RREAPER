@@ -11,12 +11,23 @@
 #define EEPROM_H
 
 #include <stdint.h>
-
 #include <config.h>
-#include <parallel-port.h>
 
-void eeprom_init(void); // initializes parallel port and control pins
-void eeprom_read(uint16_t addr, uint8_t count); // reads `count` bytes from EEPROM into `data_block`
-uint8_t eeprom_write(uint16_t addr, uint8_t count); // writes `count` bytes from `data_block` into EEPROM
+#define EEPROM_ID_INTERNAL  0   /* internal MCU EEPROM               */
+#define EEPROM_ID_PARALLEL  1   /* Parallel EEPROM via GPIO          */
+
+typedef struct {
+    void    (*init)      (void);
+    uint8_t (*read_byte) (uint16_t addr);
+    void    (*read)      (uint16_t addr, uint8_t count);
+    uint8_t (*write)     (uint16_t addr, uint8_t count);
+} eeprom_driver_t;
+
+uint8_t d_eeprom_select(uint8_t id);
+
+void    d_eeprom_init      (void);
+uint8_t d_eeprom_read_byte (uint16_t addr);
+void    d_eeprom_read      (uint16_t addr, uint8_t count);
+uint8_t d_eeprom_write     (uint16_t addr, uint8_t count);
 
 #endif

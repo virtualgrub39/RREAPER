@@ -8,7 +8,8 @@
  */
 
 #include <config.h>
-#include <uart.h>
+#include <serial.h>
+#include <error.h>
 
 volatile uint8_t tx_buffer[TX_BUFFER_SIZE];
 volatile uint8_t tx_head = 0;
@@ -19,7 +20,7 @@ volatile uint8_t rx_head = 0;
 volatile uint8_t rx_tail = 0;
 
 void
-uart_init ()
+serial_init ()
 {
     const uint16_t ubrr = UBRRVAL;
     UCSR0A &= ~(1 << U2X0);                 // async normal mode
@@ -31,7 +32,7 @@ uart_init ()
 }
 
 void
-uart_tx (uint8_t c)
+serial_tx (uint8_t c)
 {
     uint8_t next_head = (tx_head + 1) % TX_BUFFER_SIZE;
 
@@ -44,12 +45,15 @@ uart_tx (uint8_t c)
 }
 
 uint8_t
-uart_rx (void)
+serial_rx (void)
 {
     while (rx_head == rx_tail);
 
     uint8_t data = rx_buffer[rx_tail];
     rx_tail = (rx_tail + 1) % RX_BUFFER_SIZE;
+
+    // DEBUG
+    // serial_tx (data);
 
     return data;
 }
@@ -85,17 +89,21 @@ print (const char *msg)
     const char *c = msg;
     while (*c)
     {
-        uart_tx(*c);
+        serial_tx(*c);
         c += 1;
     }
 }
 
 void
-error (const char *msg)
+report (uint8_t code)
 {
-    uart_tx('E');
-    uart_tx(' ');
-    print(msg);
-    uart_tx('\r');
-    uart_tx('\n');
+    if (code == E_SILENT) return;
+    if (code != E_OK)
+    {
+        serial_tx('E');
+        serial_tx(' ');
+    }
+    print(error_string[code]);
+    serial_tx('\r');
+    serial_tx('\n');
 }

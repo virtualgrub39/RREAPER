@@ -14,9 +14,20 @@
 
 #include <config.h>
 
+#include <avr/io.h>
+
 void spi_init (void);
 void spi_write_byte (uint8_t b);
-void spi_latch_low (void);  // sets SPI_SS pin low
-void spi_latch_high (void); // sets SPI_SS pin high
+
+#define X(name, port, bit)                                        \
+    static inline void name##_LOW(void)  { PORT##port &= (uint8_t)~_BV(P##port##bit); } \
+    static inline void name##_HIGH(void) { PORT##port |= _BV(P##port##bit); } \
+    static inline void name##_OUTPUT(void) { DDR##port |= _BV(P##port##bit); } \
+    static inline void name##_INPUT(void) { DDR##port &= (uint8_t)~_BV(P##port##bit); }
+
+
+SPI_PINS
+
+#undef X
 
 #endif

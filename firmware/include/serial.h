@@ -7,29 +7,26 @@
  * RREAPER comes with no warranty; see the GNU GPL for details.
  */
 
-#include <spi.h>
+#ifndef SERIAL_H
+#define SERIAL_H
+
+#include <stdint.h>
 
 #include <avr/io.h>
+#include <avr/interrupt.h>
 
-void
-spi_init (void)
-{
-    MOSI_OUTPUT();
-    SCK_OUTPUT();
-    SS1_OUTPUT();
+#include <config.h>
 
-    MISO_INPUT();
+#define UBRRVAL (F_CPU / 16 / BAUD - 1)
 
-    SS1_HIGH();
+void serial_init ();
 
-    SPCR = (1 << SPE) | (1 << MSTR);
-}
+void serial_tx (uint8_t c);
+uint8_t serial_rx (void);
 
-void
-spi_write_byte (uint8_t b)
-{
-    SPDR = b;
-    while (!(SPSR & (1 << SPIF)));
-    (void)SPDR;
-    (void)SPSR;
-}
+void print (const char *msg);
+#define println(msg) print(msg"\r\n")
+void report (uint8_t code);
+
+
+#endif
